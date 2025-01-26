@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Wheel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background-color: #ff6b6b;
+            padding: 1rem 0.5rem;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 0;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 0 0.5rem;
+            max-width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .diet-button {
+            padding: 0.7rem 1rem;
+            border: none;
+            border-radius: 25px;
+            background-color: white;
+            color: black;
+            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+            font-weight: 400;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 110px;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .diet-button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .no-restrictions {
+            padding: 0.7rem 1.2rem;
+            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+            font-weight: 600;
+            margin-top: 0.5rem;
+            min-width: 140px;
+        }
+
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 1rem 0.5rem;
+                justify-content: center;
+                min-height: 100vh;
+            }
+
+            .container {
+                margin-top: -2rem;
+            }
+
+            .button-row {
+                gap: 0.8rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .button-row:last-child {
+                margin-bottom: 0;
+            }
+
+            .diet-button {
+                padding: 0.7rem 1.2rem;
+                min-width: 120px;
+            }
+
+            .no-restrictions {
+                padding: 0.7rem 1.2rem;
+                min-width: 130px;
+            }
+
+            .food-border {
+                max-width: 100%;
+                padding: 0.5rem;
+            }
+
+            .food-icon {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23ffffff"><path d="M25,25 L35,25 L35,60 A5,5 0 0,1 25,60 Z M45,25 A15,15 0 0,1 75,25 A15,15 0 0,1 45,25 M50,65 A10,10 0 0,1 70,65 L70,75 L50,75 Z"/></svg>');
+            background-size: 200px 200px;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+            background-repeat: repeat;
+        }
+
+        .container, h1, .button-row {
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            padding: 4rem;  /* Space for the icons */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .food-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            padding: 1rem;
+            pointer-events: none;
+            z-index: 1;  /* Place icons above background, below content */
+        }
+
+        .food-icon {
+            width: 35px;
+            height: 35px;
+            opacity: 0.8;
+        }
+
+        /* Top row */
+        .top-left { position: absolute; top: 0; left: 0; }
+        .top-left-mid { position: absolute; top: 0; left: 20%; }
+        .top-center { position: absolute; top: 0; left: 40%; }
+        .top-center-right { position: absolute; top: 0; left: 60%; }
+        .top-right-mid { position: absolute; top: 0; left: 80%; }
+        .top-right { position: absolute; top: 0; right: 0; }
+
+        /* Left side */
+        .left-top { position: absolute; top: 20%; left: 0; }
+        .left-middle { position: absolute; top: 40%; left: 0; transform: translateY(-50%); }
+        .left-bottom { position: absolute; top: 80%; left: 0; }
+
+        /* Right side */
+        .right-top { position: absolute; top: 20%; right: 0; }
+        .right-middle { position: absolute; top: 40%; right: 0; transform: translateY(-50%); }
+        .right-bottom { position: absolute; top: 80%; right: 0; }
+
+        /* Bottom row */
+        .bottom-left { position: absolute; bottom: 0; left: 0; }
+        .bottom-left-mid { position: absolute; bottom: 0; left: 20%; }
+        .bottom-center { position: absolute; bottom: 0; left: 40%; }
+        .bottom-center-right { position: absolute; bottom: 0; left: 60%; }
+        .bottom-right-mid { position: absolute; bottom: 0; left: 80%; }
+        .bottom-right { position: absolute; bottom: 0; right: 0; }
+
+        /* Ensure main content stays above icons */
+        h1, .button-row {
+            position: relative;
+            z-index: 2;
+        }
+
+        @media screen and (max-width: 480px) {
+            .content-wrapper {
+                padding: 2.5rem;  /* Smaller padding on mobile */
+            }
+
+            .food-icon {
+                width: 25px;
+                height: 25px;
+            }
+        }
+
+        .page-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 1rem;
+        }
+
+        .border-container {
+            position: relative;
+            width: 100%;
+            padding: 3rem;  /* Space for the border */
+        }
+
+        .icon-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+        }
+
+        .food-icon {
+            width: 35px;
+            height: 35px;
+            opacity: 0.8;
+        }
+
+        /* Position icons in corners */
+        .top-left { position: absolute; top: 0; left: 0; }
+        .top-right { position: absolute; top: 0; right: 0; }
+        .bottom-left { position: absolute; bottom: 0; left: 0; }
+        .bottom-right { position: absolute; bottom: 0; right: 0; }
+
+        /* Position icons between corners */
+        .top-center-left { position: absolute; top: 0; left: 25%; }
+        .top-center-right { position: absolute; top: 0; right: 25%; }
+        .middle-left { position: absolute; top: 50%; left: 0; transform: translateY(-50%); }
+        .middle-right { position: absolute; top: 50%; right: 0; transform: translateY(-50%); }
+        .bottom-center-left { position: absolute; bottom: 0; left: 25%; }
+        .bottom-center-right { position: absolute; bottom: 0; right: 25%; }
+
+        .content-area {
+            background-color: #ff6b6b;  /* Match body background */
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media screen and (max-width: 480px) {
+            .border-container {
+                padding: 2rem;
+            }
+
+            .food-icon {
+                width: 25px;
+                height: 25px;
+            }
+
+            .content-area {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="border-container">
+            <div class="icon-border">
+                <!-- Top row -->
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046874.png" alt="Food icon" class="food-icon top-left">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Food icon" class="food-icon top-left-mid">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046839.png" alt="Food icon" class="food-icon top-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046751.png" alt="Food icon" class="food-icon top-center-right">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046771.png" alt="Food icon" class="food-icon top-right-mid">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046767.png" alt="Food icon" class="food-icon top-right">
+
+                <!-- Left side -->
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046785.png" alt="Food icon" class="food-icon left-top">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046795.png" alt="Food icon" class="food-icon left-middle">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046792.png" alt="Food icon" class="food-icon left-bottom">
+
+                <!-- Right side -->
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046766.png" alt="Food icon" class="food-icon right-top">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046747.png" alt="Food icon" class="food-icon right-middle">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046782.png" alt="Food icon" class="food-icon right-bottom">
+
+                <!-- Bottom row -->
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046874.png" alt="Food icon" class="food-icon bottom-left">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Food icon" class="food-icon bottom-left-mid">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046839.png" alt="Food icon" class="food-icon bottom-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046751.png" alt="Food icon" class="food-icon bottom-center-right">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046771.png" alt="Food icon" class="food-icon bottom-right-mid">
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046767.png" alt="Food icon" class="food-icon bottom-right">
+            </div>
+
+            <div class="content-area">
+                <h1>What Are You Cooking Today?</h1>
+                <div class="button-row">
+                    <a href="wheel.html?diet=vegan" class="diet-button">Vegan</a>
+                    <a href="wheel.html?diet=vegetarian" class="diet-button">Vegetarian</a>
+                    <a href="wheel.html?diet=kosher" class="diet-button">Kosher</a>
+                </div>
+                <div class="button-row">
+                    <a href="wheel.html?diet=glutenFree" class="diet-button">Gluten Free</a>
+                    <a href="wheel.html?diet=halal" class="diet-button">Halal</a>
+                    <a href="wheel.html?diet=dairyFree" class="diet-button">Dairy Free</a>
+                </div>
+                <div class="button-row">
+                    <a href="wheel.html?diet=none" class="diet-button no-restrictions">No Restrictions</a>
+                    <a href="wheel.html?diet=healthy" class="diet-button no-restrictions">No Restrictions/Healthy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

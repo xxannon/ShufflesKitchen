@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Details - Meal Wheel</title>
+    <link rel="stylesheet" href="recipe-styles.css">
+    <style>
+        /* ... existing styles ... */
+
+        .border-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            padding: 1.5rem;
+        }
+
+        .recipe-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            border-radius: 15px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .icon-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .food-icon {
+            width: 30px;
+            height: 30px;
+            opacity: 0.8;
+            position: absolute;
+        }
+
+        /* Top row */
+        .top-left { top: -5px; left: -5px; }
+        .top-left-mid { top: -5px; left: 20%; }
+        .top-center { top: -5px; left: 40%; }
+        .top-center-right { top: -5px; left: 60%; }
+        .top-right-mid { top: -5px; left: 80%; }
+        .top-right { top: -5px; right: -5px; }
+
+        /* Left side */
+        .left-top { top: 25%; left: -5px; }
+        .left-middle { top: 50%; left: -5px; }
+        .left-bottom { top: 75%; left: -5px; }
+
+        /* Right side */
+        .right-top { top: 25%; right: -5px; }
+        .right-middle { top: 50%; right: -5px; }
+        .right-bottom { top: 75%; right: -5px; }
+
+        /* Bottom row */
+        .bottom-left { bottom: -5px; left: -5px; }
+        .bottom-left-mid { bottom: -5px; left: 20%; }
+        .bottom-center { bottom: -5px; left: 40%; }
+        .bottom-center-right { bottom: -5px; left: 60%; }
+        .bottom-right-mid { bottom: -5px; left: 80%; }
+        .bottom-right { bottom: -5px; right: -5px; }
+
+        @media screen and (max-width: 480px) {
+            .border-container {
+                padding: 1rem;
+            }
+
+            .food-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            .recipe-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="border-container">
+        <div class="icon-border">
+            <!-- Top row -->
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046874.png" alt="Food icon" class="food-icon top-left">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Food icon" class="food-icon top-left-mid">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046839.png" alt="Food icon" class="food-icon top-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046751.png" alt="Food icon" class="food-icon top-center-right">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046771.png" alt="Food icon" class="food-icon top-right-mid">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046767.png" alt="Food icon" class="food-icon top-right">
+
+            <!-- Left side -->
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046785.png" alt="Food icon" class="food-icon left-top">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046795.png" alt="Food icon" class="food-icon left-middle">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046792.png" alt="Food icon" class="food-icon left-bottom">
+
+            <!-- Right side -->
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046766.png" alt="Food icon" class="food-icon right-top">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046747.png" alt="Food icon" class="food-icon right-middle">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046782.png" alt="Food icon" class="food-icon right-bottom">
+
+            <!-- Bottom row -->
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046874.png" alt="Food icon" class="food-icon bottom-left">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Food icon" class="food-icon bottom-left-mid">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046839.png" alt="Food icon" class="food-icon bottom-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046751.png" alt="Food icon" class="food-icon bottom-center-right">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046771.png" alt="Food icon" class="food-icon bottom-right-mid">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046767.png" alt="Food icon" class="food-icon bottom-right">
+        </div>
+
+        <div class="recipe-container">
+            <h1 id="recipe-title"></h1>
+            <div class="recipe-content">
+                <div class="recipe-links">
+                    <a href="" target="_blank" class="recipe-link">AllRecipes</a>
+                    <a href="" target="_blank" class="recipe-link">Food Network</a>
+                </div>
+                <a href="wheel.html" class="back-button">Back to Deck</a>
+            </div>
+        </div>
+    </div>
+    <script src="recipe.js"></script>
+</body>
+</html> 
